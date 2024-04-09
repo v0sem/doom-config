@@ -49,7 +49,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 ;;; Code:
-(package! codeium :recipe (:host github :repo "Exafunction/codeium.el"))
 
 (provide 'packages)
 ;;;
