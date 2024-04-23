@@ -81,6 +81,16 @@
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
+(use-package! company
+  :ensure t
+  :config
+  (setq company-idle-delay 0
+        company-minimum-prefix-length 2
+        company-show-numbers t
+        company-tooltip-limit 10))
+
+(add-hook! 'python-mode-hook #'anaconda-mode)
+
 (use-package! python-black
   :demand t
   :after python)
@@ -116,3 +126,7 @@
 (add-hook! evil-markdown-mode (remove-company-backends))
 
 (setq confirm-kill-emacs nil)
+
+(after! poetry
+  (remove-hook 'python-mode-hook #'poetry-tracking-mode)
+  (add-hook 'python-mode-hook 'poetry-track-virtualenv))
