@@ -13,4 +13,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ts-fold-replacement-face ((t (:foreground unspecified :box nil :inherit font-lock-comment-face :weight light)))))
+ '(cursor ((t (:background "color-240"))))
+ '(eros-result-overlay-face ((t (:background "brightblack" :foreground "#c2ffdf" :box (:line-width (1 . -1) :color "yellow")))))
+ '(holiday ((t (:background "color-211"))))
+ '(org-column ((t (:background "grey90" :foreground "black" :strike-through nil :underline nil :slant normal :weight normal))))
+ '(ts-fold-replacement-face ((t (:foreground unspecified :box nil :inherit font-lock-comment-face :weight light))))
+ '(vertico-current ((t (:background "#d3d3d3")))))
