@@ -15,6 +15,7 @@
  ;; If there is more than one, they won't work right.
  '(cursor ((t (:background "color-240"))))
  '(eros-result-overlay-face ((t (:background "brightblack" :foreground "#c2ffdf" :box (:line-width (1 . -1) :color "yellow")))))
+ '(evil-ex-lazy-highlight ((t (:inherit lazy-highlight :background "color-140" :foreground "white"))))
  '(holiday ((t (:background "color-211"))))
  '(org-column ((t (:background "grey90" :foreground "black" :strike-through nil :underline nil :slant normal :weight normal))))
  '(ts-fold-replacement-face ((t (:foreground unspecified :box nil :inherit font-lock-comment-face :weight light))))
