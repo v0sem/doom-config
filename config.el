@@ -128,7 +128,6 @@
 
 (add-hook! org-mode (remove-company-backends))
 (add-hook! evil-markdown-mode (remove-company-backends))
-
 (setq confirm-kill-emacs nil)
 
 (after! poetry
