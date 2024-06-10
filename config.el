@@ -133,3 +133,5 @@
 (after! poetry
   (remove-hook 'python-mode-hook #'poetry-tracking-mode)
   (add-hook 'python-mode-hook 'poetry-track-virtualenv))
+
+(setq flycheck-check-syntax-automatically '(save mode-enable))
