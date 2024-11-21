@@ -7,7 +7,7 @@
    '("88f7ee5594021c60a4a6a1c275614103de8c1435d6d08cc58882f920e0cec65e" "32f22d075269daabc5e661299ca9a08716aa8cda7e85310b9625c434041916af" default))
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(package-selected-packages
-   '(gnu-elpa-keyring-update csv-mode lsp-mode synosaurus obsidian vterm python-black tree-sitter-langs tree-sitter)))
+   '(ormolu gnu-elpa-keyring-update csv-mode lsp-mode synosaurus obsidian vterm python-black tree-sitter-langs tree-sitter)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -135,3 +135,43 @@
   (add-hook 'python-mode-hook 'poetry-track-virtualenv))
 
 (setq flycheck-check-syntax-automatically '(save mode-enable))
+
+(after! sly
+  (setq sly-lisp-implementations
+        '((qlot ("qlot" "exec" "ros" "dynamic-space-size=2048" "--" "run") :coding-system utf-8-unix)
+          (ros ("ros" "dynamic-space-size=2048" "--" "run") :coding-system utf-8-unix)))
+  (setq sly-complete-symbol-function 'sly-flex-completions))
+
+(defun qlot-init ()
+  (interactive)
+  (async-shell-command "qlot init"))
+
+(defun qlot-install ()
+  (interactive)
+  (async-shell-command "qlot install"))
+
+(defun qlot-add ()
+  (interactive)
+  (let ((package-name (read-string "Package to add: ")))
+    (async-shell-command (concat "qlot add " package-name))))
+
+(defun qlot-update ()
+  (interactive)
+  (let ((package-name (read-string "Package to update: ")))
+    (async-shell-command (concat "qlot update " package-name))))
+
+(defun qlot-remove ()
+  (interactive)
+  (let ((package-name (read-string "Package to remove: ")))
+    (async-shell-command (concat "qlot remove " package-name))))
+
+(map! :after sly
+      :localleader
+      :map (sly-mode-map)
+      :prefix ("q" . "qlot")
+      :desc "Init qlot environment" :n "I" #'qlot-init
+      :desc "Install qlot packages and dependencies" :n "i" #'qlot-install
+      :desc "Add a package to environment" :n "a" #'qlot-add
+      :desc "Update a specific package" :n "u" #'qlot-update
+      :desc "Remove a specific package" :n "r" #'qlot-remove
+      )
