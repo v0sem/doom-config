@@ -144,26 +144,26 @@
 
 (defun qlot-init ()
   (interactive)
-  (async-shell-command "qlot init"))
+  (message "%s" (shell-command-to-string "qlot init")))
 
 (defun qlot-install ()
   (interactive)
-  (async-shell-command "qlot install"))
+  (message "%s" (shell-command-to-string "qlot install")))
 
 (defun qlot-add ()
   (interactive)
   (let ((package-name (read-string "Package to add: ")))
-    (async-shell-command (concat "qlot add " package-name))))
+    (message "%s" (shell-command-to-string (concat "qlot add " package-name)))))
 
 (defun qlot-update ()
   (interactive)
   (let ((package-name (read-string "Package to update: ")))
-    (async-shell-command (concat "qlot update " package-name))))
+    (message "%s" (shell-command-to-string (concat "qlot update " package-name)))))
 
 (defun qlot-remove ()
   (interactive)
   (let ((package-name (read-string "Package to remove: ")))
-    (async-shell-command (concat "qlot remove " package-name))))
+    (message "%s" (shell-command-to-string (concat "qlot remove " package-name)))))
 
 (map! :after sly
       :localleader
