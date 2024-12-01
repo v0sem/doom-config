@@ -175,3 +175,9 @@
       :desc "Update a specific package" :n "u" #'qlot-update
       :desc "Remove a specific package" :n "r" #'qlot-remove
       )
+
+(after! lsp-mode
+  (setq lsp-pyright-python-executable-cmd "python3")) ;; Or your Python path
+
+(setq lsp-disabled-clients '(pyls))
+(setq lsp-enabled-clients '(pylsp ruff-lsp)) ;; Replace pyls with pylsp
