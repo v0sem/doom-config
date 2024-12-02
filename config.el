@@ -177,7 +177,18 @@
       )
 
 (after! lsp-mode
-  (setq lsp-pyright-python-executable-cmd "python3")) ;; Or your Python path
+  (setq lsp-pyright-python-executable-cmd "python3")
+  (setq lsp-haskell-server-path "haskell-language-server-wrapper")) ;; Or your Python path
 
 (setq lsp-disabled-clients '(pyls))
-(setq lsp-enabled-clients '(pylsp ruff-lsp)) ;; Replace pyls with pylsp
+(after! lsp-mode
+  (add-to-list 'lsp-enabled-clients 'pylsp)
+  (add-to-list 'lsp-enabled-clients 'lsp-haskell)
+  (add-to-list 'lsp-enabled-clients 'ruff-lsp))
+
+(after! lsp-mode
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection "haskell-language-server-wrapper")
+    :major-modes '(haskell-mode)
+    :server-id 'haskell-lsp)))

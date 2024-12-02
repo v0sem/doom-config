@@ -50,5 +50,8 @@
 ;; (unpin! t)
 ;;; Code:
 
+(package! obsidian)
+(package! python-black)
+
 (provide 'packages)
 ;;;
