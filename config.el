@@ -70,7 +70,6 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -145,9 +144,32 @@
 ;; keep DB inside the directory so it syncs with git if you prefer (or set to ~/.local/share/org-roam)
 (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
 
+(setq org-roam-attachment-dir (expand-file-name "attachments/" org-roam-directory))
 ;; Enable autosync so org-roam picks up external changes
 ;; (function name depends on org-roam version)
 (when (fboundp 'org-roam-db-autosync-enable)
   (org-roam-db-autosync-enable))
 ;; older versions:
 ;; (org-roam-db-autosync-mode)
+
+;; Auto commit and push org-roam repo on exit
+(defun my/org-roam-git-sync-on-exit ()
+  "Commit and push changes in `org-roam-directory` on Emacs exit."
+  (when (and (executable-find "git")
+             (bound-and-true-p org-roam-directory)
+             (file-directory-p org-roam-directory)
+             (file-directory-p (expand-file-name ".git" org-roam-directory)))
+    (with-demoted-errors "Org-roam git sync error: %s"
+      (let ((default-directory (file-name-as-directory (expand-file-name org-roam-directory))))
+        (unless (string-match-p "\\`[ \t\n\r]*\\'"
+                                (shell-command-to-string "git status --porcelain"))
+          (message "Committing org-roam changes...")
+          (call-process "git" nil nil nil "add" "-A")
+          (call-process "git" nil nil nil "commit" "-m"
+                        (format "Auto-commit org-roam: %s"
+                                (format-time-string "%Y-%m-%d %H:%M:%S"))))
+        (message "Pushing org-roam changes...")
+        (call-process "git" nil nil nil "push")))))
+
+(add-hook 'kill-emacs-hook #'my/org-roam-git-sync-on-exit)
+
