@@ -139,3 +139,15 @@
 (add-hook 'org-mode-hook #'flyspell-mode)
 (add-hook 'markdown-mode-hook #'flyspell-mode)
 
+;; ORG ROAM
+;; org-roam base
+(setq org-roam-directory (file-truename "~/org-roam"))
+;; keep DB inside the directory so it syncs with git if you prefer (or set to ~/.local/share/org-roam)
+(setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+
+;; Enable autosync so org-roam picks up external changes
+;; (function name depends on org-roam version)
+(when (fboundp 'org-roam-db-autosync-enable)
+  (org-roam-db-autosync-enable))
+;; older versions:
+;; (org-roam-db-autosync-mode)
