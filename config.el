@@ -21,9 +21,9 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;; Fonts: monospaced for code, variable-pitch for prose/org
-(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 14)
-      doom-variable-pitch-font (font-spec :family "Inter" :size 16)
-      doom-unicode-font (font-spec :family "Iosevka Nerd Font Mono" :size 14))
+(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15)
+      doom-variable-pitch-font (font-spec :family "Inter" :size 17)
+      doom-unicode-font (font-spec :family "Iosevka Nerd Font Mono" :size 15))
 (setq-default line-spacing 0.08)
 
 ;; Use variable-pitch-mode in Org (and visual-line for nicer wrapping)
