@@ -26,20 +26,29 @@
       doom-unicode-font (font-spec :family "Iosevka Nerd Font Mono" :size 15))
 (setq-default line-spacing 0.08)
 
+;; Force line numbers to always inherit from fixed-pitch globally so they stay mono across capture sessions
+(set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+(set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
+(custom-set-faces!
+  '(line-number :inherit fixed-pitch)
+  '(line-number-current-line :inherit fixed-pitch))
+
 ;; Use variable-pitch-mode in Org (and visual-line for nicer wrapping)
 (add-hook 'org-mode-hook #'variable-pitch-mode)
 (add-hook 'org-mode-hook #'visual-line-mode)
+
+(defun my/org-setup-line-numbers ()
+  "Enable relative line numbers and remap line number faces to fixed-pitch."
+  (display-line-numbers-mode 1)
+  (setq-local display-line-numbers 'relative)
+  (setq-local face-remapping-alist
+              (append face-remapping-alist
+                      '((line-number . fixed-pitch)
+                        (line-number-current-line . fixed-pitch)))))
+
 ;; Keep org text variable-pitch but force the line numbers to be fixed-pitch
-(add-hook 'org-mode-hook
-          (lambda ()
-            ;; enable relative line numbers if you want them
-            (display-line-numbers-mode 1)
-            (setq-local display-line-numbers 'relative)
-            ;; Remap line-number faces to fixed-pitch so digits don't change width
-            (setq-local face-remapping-alist
-                        (append face-remapping-alist
-                                '((line-number . fixed-pitch)
-                                  (line-number-current-line . fixed-pitch))))))
+(add-hook 'org-mode-hook #'my/org-setup-line-numbers)
+(add-hook 'org-capture-mode-hook #'my/org-setup-line-numbers)
 ;; Optional: make headings use variable-pitch but keep fixed-pitch for code blocks
 (with-eval-after-load 'org
   (set-face-attribute 'org-document-title nil :font "Inter" :height 1.4)
@@ -151,6 +160,22 @@
   (org-roam-db-autosync-enable))
 ;; older versions:
 ;; (org-roam-db-autosync-mode)
+
+;; Auto pull org-roam repo on start
+(defun my/org-roam-git-pull-on-start ()
+  "Pull changes in `org-roam-directory` on Emacs start."
+  (when (and (executable-find "git")
+             (bound-and-true-p org-roam-directory)
+             (file-directory-p org-roam-directory)
+             (file-directory-p (expand-file-name ".git" org-roam-directory)))
+    (with-demoted-errors "Org-roam git pull error: %s"
+      (let ((default-directory (file-name-as-directory (expand-file-name org-roam-directory))))
+        (message "Pulling org-roam changes...")
+        (call-process "git" nil nil nil "pull")
+        (when (fboundp 'org-roam-db-sync)
+          (org-roam-db-sync))))))
+
+(add-hook 'emacs-startup-hook #'my/org-roam-git-pull-on-start)
 
 ;; Auto commit and push org-roam repo on exit
 (defun my/org-roam-git-sync-on-exit ()
