@@ -29,7 +29,17 @@
 ;; Use variable-pitch-mode in Org (and visual-line for nicer wrapping)
 (add-hook 'org-mode-hook #'variable-pitch-mode)
 (add-hook 'org-mode-hook #'visual-line-mode)
-
+;; Keep org text variable-pitch but force the line numbers to be fixed-pitch
+(add-hook 'org-mode-hook
+          (lambda ()
+            ;; enable relative line numbers if you want them
+            (display-line-numbers-mode 1)
+            (setq-local display-line-numbers 'relative)
+            ;; Remap line-number faces to fixed-pitch so digits don't change width
+            (setq-local face-remapping-alist
+                        (append face-remapping-alist
+                                '((line-number . fixed-pitch)
+                                  (line-number-current-line . fixed-pitch))))))
 ;; Optional: make headings use variable-pitch but keep fixed-pitch for code blocks
 (with-eval-after-load 'org
   (set-face-attribute 'org-document-title nil :font "Inter" :height 1.4)
@@ -97,3 +107,35 @@
 ;; VARIABLES
 
 (setq corfu-preview-current t) ;; Non inserting preview
+;;
+;; OTHER SETTINGS
+;; Start fullscreen
+(when (display-graphic-p)
+  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)))
+
+(add-hook 'after-make-frame-functions
+          (lambda (frame)
+            (when (display-graphic-p frame)
+              (with-selected-frame frame
+                (set-frame-parameter nil 'fullscreen 'maximized)))))
+
+;; Spellcheck only on md or org
+;; Use Flyspell for org & markdown only
+(after! flyspell
+  ;; prefer hunspell or aspell if available
+  (setq ispell-program-name
+        (cond
+         ((executable-find "hunspell") "hunspell")
+         ((executable-find "aspell")  "aspell")
+         (t (or ispell-program-name "aspell")))) ;; fallback
+
+  ;; Make sure flyspell uses the correct args for hunspell
+  (when (string-equal ispell-program-name "hunspell")
+    (setq ispell-really-hunspell t
+          ispell-local-dictionary "en_US")))
+
+;; Enable flyspell-mode only for writing modes
+(add-hook 'org-mode-hook #'flyspell-mode)
+(add-hook 'markdown-mode-hook #'flyspell-mode)
+
