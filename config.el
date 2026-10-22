@@ -164,7 +164,6 @@
            (file+headline "~/org/todo.org" "Work Tasks")
            "* TODO [#B] %?\n:Created: %U\n"))))
 
-
 ;; ORG ROAM
 ;; org-roam base
 (setq org-roam-directory (file-truename "~/org-roam"))
