@@ -164,10 +164,6 @@
            (file+headline "~/org/todo.org" "Work Tasks")
            "* TODO [#B] %?\n:Created: %U\n"))))
 
-;; Use Ruff's formatter for Python buffers.
-(set-formatter! 'ruff
-  '("ruff" "format" ("--stdin-filename=%s" (or buffer-file-name "stdin.py")) "-")
-  :modes '(python-mode python-ts-mode))
 
 ;; ORG ROAM
 ;; org-roam base
