@@ -147,6 +147,28 @@
 (add-hook 'org-mode-hook #'flyspell-mode)
 (add-hook 'markdown-mode-hook #'flyspell-mode)
 
+;; ORG
+
+(after! org
+  (setq org-todo-keywords
+        '((sequence
+           "TODO(t)"
+           "STRT(s!)"
+           "DELEG(g!)"
+           "HOLD(h@)"
+           "|"
+           "DONE(d!)"
+           "KILL(k@)"))
+        org-capture-templates
+        '(("w" "Work Task" entry
+           (file+headline "~/org/todo.org" "Work Tasks")
+           "* TODO [#B] %?\n:Created: %U\n"))))
+
+;; Use Ruff's formatter for Python buffers.
+(set-formatter! 'ruff
+  '("ruff" "format" ("--stdin-filename=%s" (or buffer-file-name "stdin.py")) "-")
+  :modes '(python-mode python-ts-mode))
+
 ;; ORG ROAM
 ;; org-roam base
 (setq org-roam-directory (file-truename "~/org-roam"))
