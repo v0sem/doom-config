@@ -164,6 +164,9 @@
            (file+headline "~/org/todo.org" "Work Tasks")
            "* TODO [#B] %?\n:Created: %U\n"))))
 
+;; Use Black to format Python buffers on save.
+(set-formatter! 'black :modes '(python-mode python-ts-mode))
+
 ;; ORG ROAM
 ;; org-roam base
 (setq org-roam-directory (file-truename "~/org-roam"))
